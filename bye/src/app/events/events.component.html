@@ -1,0 +1,50 @@
+<!-- events.component.html -->
+<div>
+    <h2>Events List</h2>
+  
+    <!-- Display the loading message -->
+    <ng-template #loading>
+      <p>Loading events, please wait...</p>
+    </ng-template>
+  
+    <!-- Display the error message if there's an error -->
+    <ng-template #error>
+      <div class="error-message">
+        <p>{{ errorMessage }}</p>
+      </div>
+    </ng-template>
+  
+    <!-- Display the list of events -->
+    <ng-template #eventList>
+      <ul>
+        <li *ngFor="let event of events">
+          <h3>{{ event.eventName }}</h3>
+          <p>Date: {{ event.eventDate | date: 'fullDate' }}</p>
+          <p>Location: {{ event.eventLocation }}</p>
+          <p>Description: {{ event.description || 'No description available' }}</p>
+          <hr />
+        </li>
+      </ul>
+    </ng-template>
+  
+    <!-- Display a message if no events are found -->
+    <ng-template #noEvents>
+      <p>No events available.</p>
+    </ng-template>
+  
+    <!-- Conditionally render templates based on the state -->
+    <div *ngIf="events.length === 0 && !errorMessage; else eventList">
+      <ng-container *ngIf="!eventsLoaded; else noEvents">
+        <ng-container *ngTemplateOutlet="loading"></ng-container>
+      </ng-container>
+    </div>
+  
+    <!-- Render the error template if there's an error -->
+    <div *ngIf="errorMessage">
+      <ng-container *ngTemplateOutlet="error"></ng-container>
+    </div>
+  
+    <!-- Insert button to navigate to dashboard -->
+    <button (click)="navigateToDashboard()">Go to Dashboard</button>
+  </div>
+  
